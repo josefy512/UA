@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import Inicio from './Componentes/Alumnos/Inicio/Inicio';
 import DocentesLayout from './Componentes/Docentes/Docentes';
-import DirectoresLayout from './Componentes/Docentes/Dirección/Dirección';
+import DirectoresLayout from './Componentes/Dirección/Dirección';
+import TesoreriaPanel from './Componentes/Tesoreria/Tesoreria';
 import LoginForm from './Componentes/Login/Login';
 
 export interface UsuarioSesion {
-  rol: 'alumno' | 'docente' | 'director';
+  rol: 'alumno' | 'docente' | 'director' | 'tesoreria' | 'tesorero';
   nombres: string;
   apellidos: string;
   codigo: string;
@@ -44,6 +45,10 @@ export default function App() {
 
   if (sesion.rol === 'director') {
     return <DirectoresLayout />;
+  }
+
+  if (sesion.rol === 'tesoreria' || sesion.rol === 'tesorero') {
+    return <TesoreriaPanel />;
   }
 
   return <LoginForm />;

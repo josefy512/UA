@@ -89,45 +89,6 @@ const docenteMenuGroups: DocenteMenuGroup[] = [
   }
 ];
 
-function SubpanelDocente({ seccion }: { seccion: Exclude<DocenteSectionId, 'panel' | 'futs'> }) {
-  const info: Record<
-    Exclude<DocenteSectionId, 'panel' | 'futs'>,
-    { titulo: string; subtitulo: string }
-  > = {
-    calificaciones: {
-      titulo: 'Registro de Calificaciones',
-      subtitulo: 'Evaluaciones, promedios y actas del periodo 2026-II.'
-    },
-    asistencias: {
-      titulo: 'Control de Asistencias',
-      subtitulo: 'Registro diario de asistencia y tardanzas por grupo.'
-    },
-    horarios: {
-      titulo: 'Horarios Docentes',
-      subtitulo: 'Cronograma de sesiones teóricas, prácticas y aulas asignadas.'
-    },
-    cursos: {
-      titulo: 'Mis Cursos',
-      subtitulo: 'Asignaturas a cargo, grupos y recursos académicos.'
-    }
-  };
-
-  return (
-    <div className="doc-panel-card">
-      <div className="doc-panel-card-head">
-        <div>
-          <h3 className="doc-panel-card-title">{info[seccion].titulo}</h3>
-          <p className="doc-panel-card-sub">{info[seccion].subtitulo}</p>
-        </div>
-        <span className="doc-panel-card-badge">Módulo Docente</span>
-      </div>
-      <p className="doc-subpanel-note">
-        Listo para conectar con tu subcomponente en <code>src/Componentes/Docentes/</code>.
-      </p>
-    </div>
-  );
-}
-
 function PanelDocenteHome({
   onNavigate,
   futsAprobados,
@@ -477,11 +438,11 @@ export default function DocentesLayout() {
           />
         );
       case 'calificaciones':
-        return <Calificaciones />
+        return <Calificaciones />;
       case 'asistencias':
-        return <Asistencias/>
+        return <Asistencias />;
       case 'horarios':
-        return <Horarios/>
+        return <Horarios />;
       case 'cursos':
         return <Cursos />;
       case 'futs':

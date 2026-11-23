@@ -160,15 +160,15 @@ export default function DirectoresLayout() {
     setAvisoDireccion('Solicitud FUT marcada como observada.');
   };
 
-  const handleCerrarSesion = () => {
+ const handleCerrarSesion = () => {
     try {
       localStorage.removeItem('usuarioLogueado');
       localStorage.removeItem('progresa_student_section');
+      localStorage.removeItem('progresa_docente_section');
     } catch {
       // Ignorar errores de almacenamiento
     }
-    setActiveSection('dashboard');
-    setAvisoDireccion('Sesión cerrada en el panel de dirección.');
+    window.location.reload();
   };
 
   const pendientesCount = futs.filter((f) => f.estado === 'pendiente').length;
