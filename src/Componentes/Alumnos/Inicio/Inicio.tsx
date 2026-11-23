@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './Inicio.css';
 import Tareas from '../Tareas/Tareas';
 import Calendario from '../Calendario/Calendario';
+import Biblioteca from '../Biblioteca/Biblioteca';
+import Pagos from '../Pagos/Pagos';
+import Documentos from '../Documentos/Documentos';
+import Directorio from '../Directorio/Directorio';
 import {
   Calendar,
   CheckSquare,
@@ -323,19 +327,19 @@ export default function Inicio() {
       case 'tareas':
         return <Tareas />;
       case 'recursos':
-        return <ModuloPendienteView title="Biblioteca y Recursos" />;
+        return <Biblioteca />;
       case 'foros':
         return <ModuloPendienteView title="Comunicados Oficiales" />;
       case 'directorio':
-        return <ModuloPendienteView title="Directorio Institucional" />;
+        return <Directorio />;
       case 'progreso':
         return <ModuloPendienteView title="Promedios" />;
       case 'bolsa':
         return <ModuloPendienteView title="Bolsa Laboral" />;
       case 'documentos':
-        return <ModuloPendienteView title="Documentos y Constancias" />;
+        return <Documentos />;
       case 'pagos':
-        return <ModuloPendienteView title="Estado de Pagos" />;
+        return <Pagos />;
     }
   };
 
