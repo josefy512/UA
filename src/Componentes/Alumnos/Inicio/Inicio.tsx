@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Inicio.css';
+import Tareas from '../Tareas/Tareas';
 import Calendario from '../Calendario/Calendario';
 import {
   Calendar,
@@ -58,7 +59,7 @@ const menuGroups: MenuGroup[] = [
     title: 'GESTIÓN ACADÉMICA',
     items: [
       { id: 'calendario', label: 'Calendario', icon: <Calendar className="inicio-icon-md" /> },
-      { id: 'tareas', label: 'Tareas y Evaluaciones', icon: <CheckSquare className="inicio-icon-md" /> },
+      { id: 'tareas', label: 'Tareas', icon: <CheckSquare className="inicio-icon-md" /> },
       { id: 'recursos', label: 'Biblioteca y Recursos', icon: <BookOpen className="inicio-icon-md" /> },
       { id: 'progreso', label: 'Promedios', icon: <TrendingUp className="inicio-icon-md" /> }
     ]
@@ -320,7 +321,7 @@ export default function Inicio() {
       case 'calendario':
         return <Calendario />;
       case 'tareas':
-        return <ModuloPendienteView title="Tareas y Evaluaciones" />;
+        return <Tareas />;
       case 'recursos':
         return <ModuloPendienteView title="Biblioteca y Recursos" />;
       case 'foros':

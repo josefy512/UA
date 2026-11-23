@@ -1,0 +1,750 @@
+.tar-root {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.tar-section-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.tar-card {
+  border-radius: 0.5rem;
+  background-color: #111c26;
+  border: 1px solid #1e293b;
+}
+
+.tar-header-banner {
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .tar-header-banner {
+    padding: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .tar-header-banner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.tar-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+@media (min-width: 640px) {
+  .tar-title {
+    font-size: 1.125rem;
+  }
+}
+
+.tar-subtitle {
+  margin: 0.25rem 0 0;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.tar-tabs-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem;
+  border-radius: 0.375rem;
+  background-color: #0b1218;
+  border: 1px solid #1e293b;
+  align-self: flex-start;
+}
+
+@media (min-width: 1024px) {
+  .tar-tabs-box {
+    align-self: auto;
+  }
+}
+
+.tar-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.875rem;
+  border-radius: 0.25rem;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.tar-tab-btn:hover {
+  color: #e2e8f0;
+}
+
+.tar-tab-btn-active {
+  background-color: #002b45;
+  border-color: rgba(0, 132, 194, 0.5);
+  color: #ffffff;
+}
+
+.tar-filter-bar {
+  padding: 0.875rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .tar-filter-bar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+  }
+}
+
+.tar-search-wrap {
+  position: relative;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .tar-search-wrap {
+    width: 20rem;
+  }
+}
+
+.tar-search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  color: #64748b;
+  pointer-events: none;
+}
+
+.tar-search-input {
+  width: 100%;
+  padding: 0.4rem 0.75rem 0.4rem 2.25rem;
+  border-radius: 0.375rem;
+  background-color: #0b1218;
+  border: 1px solid rgba(51, 65, 85, 0.85);
+  color: #f1f5f9;
+  font-size: 0.75rem;
+  transition: border-color 0.15s ease;
+}
+
+.tar-search-input::placeholder {
+  color: #64748b;
+}
+
+.tar-search-input:focus {
+  outline: none;
+  border-color: #0084c2;
+}
+
+.tar-filter-count {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.tar-loading-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  padding: 4rem 1rem;
+  color: #94a3b8;
+}
+
+.tar-loading-text {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.tar-empty-box {
+  padding: 2rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.tar-courses-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .tar-courses-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.tar-course-card {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: border-color 0.15s ease;
+}
+
+.tar-course-card:hover {
+  border-color: #334155;
+}
+
+.tar-course-head {
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #1e293b;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.tar-course-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tar-code-badge {
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: #002b45;
+  border: 1px solid rgba(0, 132, 194, 0.35);
+  color: #a8d5ee;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.625rem;
+  font-weight: 700;
+}
+
+.tar-group-badge {
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: #0b1218;
+  border: 1px solid rgba(51, 65, 85, 0.85);
+  color: #cbd5e1;
+  font-size: 0.625rem;
+  font-weight: 600;
+}
+
+.tar-course-name {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.tar-course-meta {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  background-color: #0b1218;
+  border: 1px solid rgba(30, 41, 59, 0.9);
+  font-size: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .tar-course-meta {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.tar-meta-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-width: 0;
+}
+
+.tar-meta-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  background-color: #002b45;
+  color: #a8d5ee;
+  flex-shrink: 0;
+}
+
+.tar-meta-label {
+  margin: 0;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.tar-meta-value {
+  margin: 0.1rem 0 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tar-course-footer {
+  padding-top: 0.5rem;
+  border-top: 1px solid #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.tar-syllabus-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.tar-syllabus-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: 0.375rem;
+  background-color: #0084c2;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease;
+}
+
+.tar-syllabus-link:hover {
+  background-color: #0073a8;
+}
+
+.tar-syllabus-pending {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  background-color: #0b1218;
+  border: 1px solid #1e293b;
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.tar-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .tar-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .tar-stats-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.tar-stat-card {
+  padding: 1rem;
+  border-left-width: 4px;
+}
+
+.tar-stat-amber {
+  border-left-color: #fbbf24;
+}
+
+.tar-stat-emerald {
+  border-left-color: #10b981;
+}
+
+.tar-stat-blue {
+  border-left-color: #0084c2;
+}
+
+.tar-stat-rose {
+  border-left-color: #f43f5e;
+}
+
+.tar-stat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.tar-stat-bottom {
+  margin-top: 0.625rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.tar-stat-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.tar-stat-num-only {
+  margin-top: 0.625rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.tar-stat-tag {
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+.tar-stat-note {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.tar-stat-due {
+  margin-top: 0.5rem;
+}
+
+.tar-due-when {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #fda4af;
+}
+
+.tar-due-course {
+  margin: 0.125rem 0 0;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tar-split-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .tar-split-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+  .tar-list-col {
+    grid-column: span 5 / span 5;
+  }
+  .tar-detail-col {
+    grid-column: span 7 / span 7;
+  }
+}
+
+.tar-list-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tar-task-item {
+  width: 100%;
+  text-align: left;
+  border-radius: 0.5rem;
+  background-color: #111c26;
+  border: 1px solid #1e293b;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.tar-task-item:hover {
+  border-color: #334155;
+}
+
+.tar-task-item-active {
+  border-color: #0084c2;
+  border-left-width: 4px;
+  border-left-color: #0084c2;
+}
+
+.tar-task-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.tar-task-course {
+  font-weight: 700;
+  color: #a8d5ee;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tar-due-pill {
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: rgba(244, 63, 94, 0.15);
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  color: #fda4af;
+  font-size: 0.625rem;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tar-task-item-title {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.35;
+}
+
+.tar-task-item-foot {
+  padding-top: 0.5rem;
+  border-top: 1px solid #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.tar-task-weight {
+  font-weight: 600;
+  color: #e2e8f0;
+  flex-shrink: 0;
+}
+
+.tar-detail-col {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .tar-detail-col {
+    padding: 1.5rem;
+  }
+}
+
+.tar-detail-head {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #1e293b;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.tar-detail-badge {
+  align-self: flex-start;
+  padding: 0.125rem 0.625rem;
+  border-radius: 0.25rem;
+  background-color: #002b45;
+  border: 1px solid rgba(0, 132, 194, 0.35);
+  color: #a8d5ee;
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+.tar-detail-title {
+  margin: 0.25rem 0 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.tar-detail-meta {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.tar-instructions-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #cbd5e1;
+}
+
+.tar-instructions-heading {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #e2e8f0;
+}
+
+.tar-instructions-box {
+  padding: 1rem;
+  border-radius: 0.375rem;
+  background-color: #0b1218;
+  border: 1px solid #1e293b;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tar-instruction-line {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.tar-file-selected {
+  padding: 0.5rem 0.875rem;
+  border-radius: 0.375rem;
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #6ee7b7;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.tar-upload-wrap {
+  padding-top: 0.25rem;
+}
+
+.tar-upload-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  border-radius: 0.375rem;
+  background-color: #0084c2;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.tar-upload-btn:hover {
+  background-color: #0073a8;
+}
+
+.tar-file-input {
+  display: none;
+}
+
+.tar-truncate-wrap {
+  min-width: 0;
+  flex: 1;
+}
+
+.tar-truncate-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tar-text-amber {
+  color: #fcd34d;
+}
+
+.tar-text-emerald {
+  color: #6ee7b7;
+}
+
+.tar-text-sky {
+  color: #a8d5ee;
+}
+
+.tar-ico-sky {
+  color: #a8d5ee;
+}
+
+.tar-ico-blue {
+  color: #0084c2;
+}
+
+.tar-ico-muted {
+  color: #64748b;
+}
+
+.tar-ico-amber {
+  color: #fbbf24;
+}
+
+.tar-ico-emerald {
+  color: #34d399;
+}
+
+.tar-ico-rose {
+  color: #fb7185;
+}
+
+.tar-icon-xs {
+  width: 0.75rem;
+  height: 0.75rem;
+  flex-shrink: 0;
+}
+
+.tar-icon-sm {
+  width: 0.875rem;
+  height: 0.875rem;
+  flex-shrink: 0;
+}
+
+.tar-icon-md {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+.tar-icon-lg {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+}
+
+@keyframes tarSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.tar-spin {
+  animation: tarSpin 1s linear infinite;
+}
