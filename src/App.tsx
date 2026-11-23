@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
+import Inicio from './Componentes/Alumnos/Inicio/Inicio';
 import LoginForm from './Componentes/Login/Login';
 
 export interface UsuarioSesion {
@@ -45,6 +46,10 @@ export default function App() {
 
   if (!sesion) {
     return <LoginForm />;
+  }
+
+  if (sesion.rol === 'alumno') {
+    return <Inicio />;
   }
 
   return (
