@@ -1,238 +1,108 @@
-import { useState, useEffect, type FormEvent, type ReactNode } from 'react';
+import React, { useState } from 'react';
+import { autenticarUsuario } from '../../lib/progresaApi';
+import type { UsuarioSesion } from '../../types/progresa';
 import './Login.css';
-import {
-  GraduationCap,
-  Eye,
-  EyeOff,
-  IdCard,
-  Lock,
-  Loader2,
-  Wifi,
-  WifiOff,
-  User,
-  ShieldCheck,
-  CloudOff,
-  Cloud
-} from 'lucide-react';
 
-type Role = 'alumno' | 'docente' | 'personal';
+interface LoginProps {
+  onLoginSuccess: (usuario: UsuarioSesion) => void;
+}
 
-const roles: { id: Role; label: string; icon: ReactNode }[] = [
-  { id: 'alumno', label: 'Alumno', icon: <User className="login-icon-md" /> },
-  { id: 'docente', label: 'Docente', icon: <GraduationCap className="login-icon-md" /> },
-  { id: 'personal', label: 'Personal', icon: <ShieldCheck className="login-icon-md" /> }
-];
-
-export default function LoginForm() {
-  const [role, setRole] = useState<Role>('alumno');
-  const [codigo, setCodigo] = useState('');
+export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
+  const [identificador, setIdentificador] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [isOnline, setIsOnline] = useState<boolean>(
-    typeof navigator !== 'undefined' ? navigator.onLine : true
-  );
+  const [cargando, setCargando] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  useEffect(() => {
-    const goOnline = () => setIsOnline(true);
-    const goOffline = () => setIsOnline(false);
-    window.addEventListener('online', goOnline);
-    window.addEventListener('offline', goOffline);
-    return () => {
-      window.removeEventListener('online', goOnline);
-      window.removeEventListener('offline', goOffline);
-    };
-  }, []);
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
+    setErrorMsg(null);
+    setCargando(true);
 
-    if (!codigo.trim()) {
-      setError('Ingresa tu DNI.');
-      return;
+    try {
+      const { usuario, error } = await autenticarUsuario(identificador, password);
+      if (error || !usuario) {
+        setErrorMsg(error ?? 'No se pudo iniciar sesión.');
+        return;
+      }
+
+      localStorage.setItem('usuarioLogueado', JSON.stringify(usuario));
+      onLoginSuccess(usuario);
+    } catch (err) {
+      const mensaje = err instanceof Error ? err.message : 'Error al conectar con Supabase.';
+      setErrorMsg(mensaje);
+    } finally {
+      setCargando(false);
     }
-    if (!password) {
-      setError('Ingresa tu contraseña.');
-      return;
-    }
+  };
 
-    setSubmitting(true);
-
-    setTimeout(() => {
-      const rolGuardado = role === 'personal' ? 'director' : role;
-      localStorage.setItem(
-        'usuarioLogueado',
-        JSON.stringify({
-          nombres:
-            role === 'alumno'
-              ? 'Estudiante'
-              : role === 'docente'
-                ? 'Docente'
-                : 'Dirección',
-          apellidos: 'Institucional',
-          codigo: codigo.trim(),
-          institucionNombre: 'Institución Educativa',
-          rol: rolGuardado
-        })
-      );
-      localStorage.setItem(
-        'progresa_student_section',
-        role === 'docente' ? 'docentes' : 'panel'
-      );
-      setSubmitting(false);
-      window.location.reload();
-    }, 300);
+  const accesoRapidoDemo = (codigoDemo: string) => {
+    setIdentificador(codigoDemo);
+    setPassword('demo1234');
+    setErrorMsg(null);
   };
 
   return (
     <div className="login-page">
-      <header className="login-topbar">
-        <div className="login-topbar-inner">
-          <div className="login-brand">
-            <div className="login-brand-icon">
-              <GraduationCap className="login-icon-lg" strokeWidth={2} />
-            </div>
-            <div className="login-brand-text">
-              <span className="login-brand-title">Progresa</span>
-              <span className="login-brand-subtitle">Portal Académico Institucional</span>
-            </div>
+      <div className="login-card">
+        <div className="login-header">
+          <h1>Portal Institucional Progresa</h1>
+          <p>Ingresa con tu código o correo institucional y tu contraseña</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="login-field">
+            <label htmlFor="identificador">Código o Correo Institucional</label>
+            <input
+              id="identificador"
+              type="text"
+              placeholder="Ej: 20241089, DOC-2026, tesoreria@institucion.edu.pe"
+              value={identificador}
+              onChange={(e) => setIdentificador(e.target.value)}
+              disabled={cargando}
+              required
+            />
           </div>
 
-          <div
-            className={`login-status-pill ${
-              isOnline ? 'login-status-online' : 'login-status-offline'
-            }`}
-          >
-            {isOnline ? (
-              <>
-                <Cloud className="login-icon-sm" />
-                <span>En línea</span>
-              </>
-            ) : (
-              <>
-                <CloudOff className="login-icon-sm" />
-                <span>Sin red</span>
-              </>
-            )}
+          <div className="login-field">
+            <label htmlFor="password">Contraseña</label>
+            <input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={cargando}
+              required
+            />
+          </div>
+
+          {errorMsg && <div className="login-error">{errorMsg}</div>}
+
+          <button type="submit" className="login-btn" disabled={cargando}>
+            {cargando ? 'Validando acceso...' : 'Iniciar Sesión'}
+          </button>
+        </form>
+
+        <div className="login-demo-box">
+          <span>Accesos rápidos de prueba (clave: demo1234):</span>
+          <div className="login-demo-buttons">
+            <button type="button" onClick={() => accesoRapidoDemo('20241089')}>
+              Alumno
+            </button>
+            <button type="button" onClick={() => accesoRapidoDemo('DOC-2026')}>
+              Docente
+            </button>
+            <button type="button" onClick={() => accesoRapidoDemo('TES-2026')}>
+              Tesorería
+            </button>
+            <button type="button" onClick={() => accesoRapidoDemo('DIR-2026')}>
+              Dirección
+            </button>
           </div>
         </div>
-      </header>
-
-      <main className="login-container">
-        <section className="login-card" aria-label="Inicio de sesión">
-          <div className="login-card-top">
-            <div>
-              <h1 className="login-heading-title">Iniciar sesión</h1>
-              <p className="login-heading-desc">
-                Selecciona tu rol e ingresa tus credenciales institucionales.
-              </p>
-            </div>
-            <span className="login-mode-tag">
-              {isOnline ? (
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
-                  <Wifi className="login-icon-sm" />
-                  Red activa
-                </span>
-              ) : (
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
-                  <WifiOff className="login-icon-sm" />
-                  Offline
-                </span>
-              )}
-            </span>
-          </div>
-
-          <div className="login-section">
-            <span className="login-label">Tipo de usuario</span>
-            <div className="login-roles-grid">
-              {roles.map((r) => {
-                const active = role === r.id;
-                return (
-                  <button
-                    key={r.id}
-                    type="button"
-                    onClick={() => setRole(r.id)}
-                    className={`login-role-btn ${active ? 'login-role-btn-active' : ''}`}
-                  >
-                    {r.icon}
-                    <span>{r.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <form onSubmit={handleSubmit} className="login-form" noValidate>
-            <label className="login-section">
-              <span className="login-label">DNI</span>
-              <div className="login-input-wrap">
-                <span className="login-input-icon">
-                  <IdCard className="login-icon-md" />
-                </span>
-                <input
-                  type="text"
-                  value={codigo}
-                  onChange={(e) => setCodigo(e.target.value)}
-                  placeholder="Ingresa tu DNI"
-                  autoComplete="username"
-                  className="login-input"
-                />
-              </div>
-            </label>
-
-            <label className="login-section">
-              <span className="login-label">Contraseña</span>
-              <div className="login-input-wrap">
-                <span className="login-input-icon">
-                  <Lock className="login-icon-md" />
-                </span>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Ingresa tu contraseña"
-                  autoComplete="current-password"
-                  className="login-input login-input-password"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((s) => !s)}
-                  aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-                  className="login-eye-btn"
-                >
-                  {showPassword ? (
-                    <EyeOff className="login-icon-md" />
-                  ) : (
-                    <Eye className="login-icon-md" />
-                  )}
-                </button>
-              </div>
-            </label>
-
-            {error && <p className="login-error">{error}</p>}
-
-            <button type="submit" disabled={submitting} className="login-submit-btn">
-              {submitting ? (
-                <>
-                  <Loader2 className="login-icon-md login-spin" />
-                  <span>Ingresando...</span>
-                </>
-              ) : (
-                <span>Ingresar</span>
-              )}
-            </button>
-          </form>
-
-          <p className="login-footer">
-            ¿Problemas con tu acceso?{' '}
-            <span className="login-footer-accent">
-              Consulta con administración académica
-            </span>
-          </p>
-        </section>
-      </main>
+      </div>
     </div>
   );
-}
+};
+
+export default Login;

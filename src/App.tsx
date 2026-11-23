@@ -1,55 +1,57 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import Login from './Componentes/Login/Login';
+import Docentes from './Componentes/Docentes/Docentes';
+import Tesoreria from './Componentes/Tesoreria/Tesoreria';
+// @ts-ignore si el nombre con tilde en la carpeta da aviso de casing/resolución
+import Direccion from './Componentes/Dirección/Direccion';
+import PortalAlumnos from './Componentes/Alumnos/PortalAlumnos';
+import type { UsuarioSesion } from './types/progresa';
 import './App.css';
-import Inicio from './Componentes/Alumnos/Inicio/Inicio';
-import DocentesLayout from './Componentes/Docentes/Docentes';
-import DirectoresLayout from './Componentes/Dirección/Dirección';
-import TesoreriaPanel from './Componentes/Tesoreria/Tesoreria';
-import LoginForm from './Componentes/Login/Login';
 
-export interface UsuarioSesion {
-  rol: 'alumno' | 'docente' | 'director' | 'tesoreria' | 'tesorero';
-  nombres: string;
-  apellidos: string;
-  codigo: string;
-  institucionNombre: string;
-  email?: string;
-  especialidad?: string;
+function leerSesionGuardada(): UsuarioSesion | null {
+  try {
+    const raw = localStorage.getItem('usuarioLogueado');
+    if (!raw) return null;
+    return JSON.parse(raw) as UsuarioSesion;
+  } catch {
+    return null;
+  }
 }
 
-export default function App() {
-  const [sesion, setSesion] = useState<UsuarioSesion | null>(null);
+export function App() {
+  const [usuario, setUsuario] = useState<UsuarioSesion | null>(() => leerSesionGuardada());
 
   useEffect(() => {
-    try {
-      const rawUsuario = localStorage.getItem('usuarioLogueado');
-      if (rawUsuario) {
-        const parsed = JSON.parse(rawUsuario) as UsuarioSesion;
-        setSesion(parsed);
-      }
-    } catch {
-      setSesion(null);
+    if (usuario) {
+      localStorage.setItem('usuarioLogueado', JSON.stringify(usuario));
     }
-  }, []);
+  }, [usuario]);
 
-  if (!sesion) {
-    return <LoginForm />;
+  const cerrarSesion = () => {
+    localStorage.removeItem('usuarioLogueado');
+    setUsuario(null);
+  };
+
+  if (!usuario) {
+    return <Login onLoginSuccess={(u) => setUsuario(u)} />;
   }
 
-  if (sesion.rol === 'alumno') {
-    return <Inicio />;
-  }
+  const renderModuloPorRol = () => {
+    switch (usuario.rol) {
+      case 'docente':
+        return <Docentes />;
+      case 'tesoreria':
+      case 'tesorero':
+        return <Tesoreria />;
+      case 'director':
+        return <Direccion />;
+      case 'alumno':
+      default:
+        return <PortalAlumnos usuario={usuario} onLogout={cerrarSesion} />;
+    }
+  };
 
-  if (sesion.rol === 'docente') {
-    return <DocentesLayout />;
-  }
-
-  if (sesion.rol === 'director') {
-    return <DirectoresLayout />;
-  }
-
-  if (sesion.rol === 'tesoreria' || sesion.rol === 'tesorero') {
-    return <TesoreriaPanel />;
-  }
-
-  return <LoginForm />;
+  return <div className="app-shell">{renderModuloPorRol()}</div>;
 }
+
+export default App;
