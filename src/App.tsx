@@ -3,7 +3,7 @@ import Login from './Componentes/Login/Login';
 import Docentes from './Componentes/Docentes/Docentes';
 import Tesoreria from './Componentes/Tesoreria/Tesoreria';
 // @ts-ignore si el nombre con tilde en la carpeta da aviso de casing/resolución
-import Direccion from './Componentes/Dirección/Direccion';
+import Direccion from './Componentes/Direccion/Direccion';
 import PortalAlumnos from './Componentes/Alumnos/PortalAlumnos';
 import { sincronizarCacheGeneral } from './lib/progresaApi';
 import type { UsuarioSesion } from './types/progresa';
