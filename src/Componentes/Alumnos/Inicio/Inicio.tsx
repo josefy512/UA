@@ -56,10 +56,10 @@ const menuGroups: MenuGroup[] = [
   {
     title: 'GESTIÓN ACADÉMICA',
     items: [
-      { id: 'calendario', label: 'Horario y Calendario', icon: <Calendar className="inicio-icon-md" /> },
+      { id: 'calendario', label: 'Calendario', icon: <Calendar className="inicio-icon-md" /> },
       { id: 'tareas', label: 'Tareas y Evaluaciones', icon: <CheckSquare className="inicio-icon-md" /> },
       { id: 'recursos', label: 'Biblioteca y Recursos', icon: <BookOpen className="inicio-icon-md" /> },
-      { id: 'progreso', label: 'Record de Notas', icon: <TrendingUp className="inicio-icon-md" /> }
+      { id: 'progreso', label: 'Promedios', icon: <TrendingUp className="inicio-icon-md" /> }
     ]
   },
   {
@@ -317,7 +317,7 @@ export default function Inicio() {
       case 'panel':
         return <PanelControlView onNavigate={handleNavigate} />;
       case 'calendario':
-        return <ModuloPendienteView title="Horario y Calendario" />;
+        return <ModuloPendienteView title="Calendario" />;
       case 'tareas':
         return <ModuloPendienteView title="Tareas y Evaluaciones" />;
       case 'recursos':
@@ -327,7 +327,7 @@ export default function Inicio() {
       case 'directorio':
         return <ModuloPendienteView title="Directorio Institucional" />;
       case 'progreso':
-        return <ModuloPendienteView title="Record de Notas y Avance Curricular" />;
+        return <ModuloPendienteView title="Promedios" />;
       case 'bolsa':
         return <ModuloPendienteView title="Bolsa Laboral" />;
       case 'documentos':
