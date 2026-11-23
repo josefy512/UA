@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Inicio.css';
+import Calendario from '../Calendario/Calendario';
 import {
   Calendar,
   CheckSquare,
@@ -317,7 +318,7 @@ export default function Inicio() {
       case 'panel':
         return <PanelControlView onNavigate={handleNavigate} />;
       case 'calendario':
-        return <ModuloPendienteView title="Calendario" />;
+        return <Calendario />;
       case 'tareas':
         return <ModuloPendienteView title="Tareas y Evaluaciones" />;
       case 'recursos':
