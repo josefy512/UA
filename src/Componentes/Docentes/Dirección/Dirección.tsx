@@ -1,12 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
+import ValFutsPanel from './Val_Futs/Val_Futs';
 import './Dirección.css';
 import {
   BarChart3,
   FileCheck2,
   Users,
   Search,
-  CheckCircle2,
-  XCircle,
   FileText,
   Building2,
   LogOut,
@@ -429,78 +428,15 @@ export default function DirectoresLayout() {
             </div>
           )}
 
-          {activeSection === 'futs' && (
-            <div className="dir-stack-sm">
-              <div className="dir-futs-head">
-                <div>
-                  <h2 className="dir-section-title">Bandeja de Aprobación de FUTs</h2>
-                  <p className="dir-card-sub">
-                    Revisión y firma digital de solicitudes institucionales
-                  </p>
-                </div>
-                <span className="dir-badge-sky">Pendientes ({pendientesCount})</span>
-              </div>
-
-              {cargandoFuts ? (
-                <p className="dir-empty-msg">Cargando trámites...</p>
-              ) : futs.length === 0 ? (
-                <p className="dir-empty-msg">
-                  No hay trámites registrados en este momento.
-                </p>
-              ) : (
-                <div className="dir-futs-list">
-                  {futs.map((fut) => (
-                    <article key={fut.id} className="dir-card dir-fut-row">
-                      <div className="dir-fut-info">
-                        <div className="dir-fut-meta">
-                          <span className="dir-fut-code">{fut.codigo}</span>
-                          <span className="dir-fut-date">| {fut.fecha}</span>
-                          <span
-                            className={`dir-fut-status ${
-                              fut.estado === 'pendiente'
-                                ? 'dir-status-pending'
-                                : fut.estado === 'aprobado'
-                                ? 'dir-status-approved'
-                                : 'dir-status-rejected'
-                            }`}
-                          >
-                            {fut.estado.toUpperCase()}
-                          </span>
-                        </div>
-                        <h3 className="dir-fut-title">{fut.asunto}</h3>
-                        <p className="dir-fut-applicant">
-                          Solicitante: <strong>{fut.estudiante}</strong> ({fut.carrera})
-                        </p>
-                      </div>
-
-                      {fut.estado === 'pendiente' ? (
-                        <div className="dir-fut-actions">
-                          <button
-                            type="button"
-                            onClick={() => handleRechazarFUT(fut.id)}
-                            className="dir-btn-observe"
-                          >
-                            <XCircle className="dir-icon-xs" />
-                            <span>Observar</span>
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleAprobarFUT(fut.id)}
-                            className="dir-btn-approve"
-                          >
-                            <CheckCircle2 className="dir-icon-xs" />
-                            <span>Aprobar y Firmar</span>
-                          </button>
-                        </div>
-                      ) : (
-                        <span className="dir-fut-processed">Trámite procesado</span>
-                      )}
-                    </article>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+          
+            {activeSection === 'futs' && (
+  <ValFutsPanel
+    futs={futs}
+    cargando={cargandoFuts}
+    onAprobar={handleAprobarFUT}
+    onObservar={handleRechazarFUT}
+  />
+)}
 
           {activeSection !== 'dashboard' && activeSection !== 'futs' && (
             <div className="dir-card dir-placeholder-box">
