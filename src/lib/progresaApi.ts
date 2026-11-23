@@ -380,3 +380,95 @@ export async function crearFutAlumno(params: {
   if (error) throw error;
   return data as FutDB;
 }
+
+const CACHE_PREFIX = 'progresa_cache_v1_';
+
+export function guardarCacheLocal<T>(clave: string, datos: T): void {
+  try {
+    localStorage.setItem(`${CACHE_PREFIX}${clave}`, JSON.stringify(datos));
+  } catch {
+    // Ignorar si localStorage está lleno o restringido
+  }
+}
+
+export function leerCacheLocal<T>(clave: string): T | null {
+  try {
+    const raw = localStorage.getItem(`${CACHE_PREFIX}${clave}`);
+    if (!raw) return null;
+    return JSON.parse(raw) as T;
+  } catch {
+    return null;
+  }
+}
+
+export async function sincronizarCacheGeneral(): Promise<{
+  cursos: CursoSilaboDB[];
+  horarios: HorarioDB[];
+  estudiantes: EstudianteDB[];
+  docentes: DocenteDB[];
+  calificaciones: CalificacionDB[];
+  asistencias: AsistenciaDB[];
+  futs: FutDB[];
+  pensiones: PensionCuotaDB[];
+  boletasCobros: BoletaCobroDB[];
+}> {
+  const cached = {
+    cursos: leerCacheLocal<CursoSilaboDB[]>('cursos') ?? [],
+    horarios: leerCacheLocal<HorarioDB[]>('horarios') ?? [],
+    estudiantes: leerCacheLocal<EstudianteDB[]>('estudiantes') ?? [],
+    docentes: leerCacheLocal<DocenteDB[]>('docentes') ?? [],
+    calificaciones: leerCacheLocal<CalificacionDB[]>('calificaciones') ?? [],
+    asistencias: leerCacheLocal<AsistenciaDB[]>('asistencias') ?? [],
+    futs: leerCacheLocal<FutDB[]>('futs') ?? [],
+    pensiones: leerCacheLocal<PensionCuotaDB[]>('pensiones') ?? [],
+    boletasCobros: leerCacheLocal<BoletaCobroDB[]>('boletas_cobros') ?? [],
+  };
+
+  try {
+    const [
+      cursos,
+      horarios,
+      estudiantes,
+      docentes,
+      calificaciones,
+      asistencias,
+      futs,
+      pensiones,
+      boletasCobros,
+    ] = await Promise.all([
+      obtenerCursosConSilabo(),
+      obtenerHorarios(),
+      obtenerEstudiantes(),
+      obtenerDocentes(),
+      obtenerCalificaciones(),
+      obtenerAsistencias(),
+      obtenerFuts(),
+      obtenerPensionesCuotas(),
+      obtenerBoletasCobros(),
+    ]);
+
+    guardarCacheLocal('cursos', cursos);
+    guardarCacheLocal('horarios', horarios);
+    guardarCacheLocal('estudiantes', estudiantes);
+    guardarCacheLocal('docentes', docentes);
+    guardarCacheLocal('calificaciones', calificaciones);
+    guardarCacheLocal('asistencias', asistencias);
+    guardarCacheLocal('futs', futs);
+    guardarCacheLocal('pensiones', pensiones);
+    guardarCacheLocal('boletas_cobros', boletasCobros);
+
+    return {
+      cursos,
+      horarios,
+      estudiantes,
+      docentes,
+      calificaciones,
+      asistencias,
+      futs,
+      pensiones,
+      boletasCobros,
+    };
+  } catch {
+    return cached;
+  }
+}
