@@ -1,32 +1,21 @@
-# React + TypeScript + Vite
+# Portal Institucional Progresa
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Aplicación web hecha con **React**, **TypeScript** y **Supabase** para gestionar el día a día académico, administrativo y de tesorería dentro de una institución educativa.
 
-Currently, two official plugins are available:
+## ¿Qué hace esta página?
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+La plataforma se adapta según el rol con el que entres al iniciar sesión:
 
-## React Compiler
+* **Login y sesión**: Valida usuarios y alumnos contra Supabase, mantiene la sesión guardada y refresca caché local para tener respaldo al recargar.
+* **Portal de Alumnos (`PortalAlumnos.tsx`)**: Permite revisar cursos, sílabos en PDF, horarios, calificaciones, asistencias, pensiones/cuotas y enviar solicitudes FUT.
+* **Módulo de Docentes (`Docentes.tsx`)**: Muestra cursos, horarios y estudiantes, y permite subir sílabos en **PDF** directo al bucket `silabos-pdf` de Supabase Storage.
+* **Módulo de Tesorería (`Tesoreria.tsx`)**: Gestiona pensiones y cuotas, registra fotos de boletas subidas por alumnos (en el bucket `boletas-fotos`), registra cobros de otras entidades y permite validar, observar o dejar pendientes los comprobantes.
+* **Módulo de Dirección (`Direccion.tsx`)**: Revisa solicitudes FUT y permite aprobarlas, observarlas, rechazarlas o dejarlas pendientes con observaciones.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Estructura principal del proyecto
 
-## Expanding the Oxlint configuration
+* `src/lib/supabase.ts`: Cliente de Supabase y nombres de buckets (`boletas-fotos` y `silabos-pdf`).
+* `src/lib/progresaApi.ts`: Consultas a tablas, autenticación, subida de archivos a Storage y helpers de caché.
+* `src/types/progresa.ts`: Interfaces y tipos de datos de la base relacional.
+* `src/Componentes/`: Vistas y módulos separados por rol (`Login`, `Alumnos`, `Docentes`, `Tesoreria` y `Direccion`).
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
